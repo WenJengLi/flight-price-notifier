@@ -1,0 +1,53 @@
+.site-shell { min-height: 100svh; background: #f7f4eb; }
+.site-header { align-items: center; display: flex; justify-content: space-between; margin: 0 auto; max-width: 1180px; padding: 24px 32px; }
+.brand { color: #1d3424; font-family: Fraunces, serif; font-size: 21px; font-weight: 700; letter-spacing: 0; text-decoration: none; }
+.nav-link, .text-link { color: #315f48; font-weight: 600; text-decoration: none; }
+.nav-link:hover, .text-link:hover { text-decoration: underline; }
+.button { align-items: center; background: #d94d30; border: 1px solid #d94d30; border-radius: 5px; color: #fffdf8; display: inline-flex; font-weight: 700; justify-content: center; min-height: 44px; padding: 10px 18px; text-decoration: none; }
+.button:hover { background: #b63c24; border-color: #b63c24; }
+.button:focus-visible, .nav-link:focus-visible, .brand:focus-visible, input:focus-visible { outline: 3px solid #f0b247; outline-offset: 3px; }
+.button-secondary { background: transparent; border-color: #315f48; color: #1d3424; }
+.button-secondary:hover { background: #e6efe8; color: #1d3424; }
+.landing-main { overflow: hidden; }
+.hero-section { margin: 0 auto; max-width: 1180px; padding: 76px 32px 104px; position: relative; }
+.hero-section::before { background: #dcebdc; border-radius: 50%; content: ''; height: 530px; position: absolute; right: -165px; top: -210px; width: 530px; z-index: 0; }
+.hero-copy { max-width: 710px; position: relative; z-index: 1; }
+.eyebrow { color: #315f48; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; margin: 0 0 18px; text-transform: uppercase; }
+.hero-title { color: #1d3424; font-family: Fraunces, serif; font-size: clamp(44px, 7vw, 82px); line-height: 1.06; margin: 0; }
+.hero-subtitle { color: #4e5b50; font-size: 19px; line-height: 1.55; margin: 24px 0 30px; max-width: 590px; }
+.hero-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 18px; }
+.feature-section { background: #1d3424; color: #f7f4eb; padding: 78px 32px; }
+.feature-heading { font-family: Fraunces, serif; font-size: 33px; margin: 0 auto 34px; max-width: 1116px; }
+.feature-grid { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); margin: 0 auto; max-width: 1116px; }
+.feature-card { border-top: 1px solid #7da08a; min-height: 200px; padding: 22px 4px; }
+.feature-number { color: #f0b247; font-family: 'DM Mono', monospace; font-size: 13px; }
+.feature-card h2 { color: #f7f4eb; font-size: 20px; margin: 22px 0 10px; }
+.feature-card p { color: #d2e0d5; line-height: 1.55; margin: 0; }
+.site-footer { color: #657466; font-size: 14px; padding: 28px 32px; text-align: center; }
+.auth-page, .app-page { align-items: center; display: flex; justify-content: center; min-height: calc(100svh - 93px); padding: 48px 24px; }
+.auth-panel, .app-panel { background: #fffdf8; border: 1px solid #d9d6ca; border-radius: 8px; max-width: 465px; padding: 42px; width: 100%; }
+.auth-panel h1, .app-panel h1 { color: #1d3424; font-family: Fraunces, serif; font-size: 38px; line-height: 1.1; margin: 0 0 12px; }
+.panel-intro { color: #5d685f; line-height: 1.55; margin: 0 0 28px; }
+.auth-form { display: grid; gap: 18px; }
+.form-field { display: grid; gap: 8px; }
+.form-field label { color: #28382c; font-size: 14px; font-weight: 700; }
+.form-field input { background: #fffdf8; border: 1px solid #aeb8af; border-radius: 4px; min-height: 46px; padding: 10px 12px; }
+.form-field input::placeholder { color: #7a857c; }
+.auth-form .button { margin-top: 6px; width: 100%; }
+.form-footnote { color: #647168; font-size: 14px; margin: 26px 0 0; text-align: center; }
+.app-panel { max-width: 620px; text-align: center; }
+.app-panel p { color: #5d685f; line-height: 1.6; margin: 0 auto 28px; max-width: 470px; }
+.phase-note { color: #657466; font-family: 'DM Mono', monospace; font-size: 12px; margin: 0 0 18px; }
+
+@media (max-width: 720px) {
+  .site-header { padding: 20px 22px; }
+  .hero-section { padding: 56px 22px 72px; }
+  .hero-section::before { height: 330px; right: -155px; top: -130px; width: 330px; }
+  .hero-title { font-size: 48px; }
+  .hero-subtitle { font-size: 17px; }
+  .feature-section { padding: 56px 22px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .feature-card { min-height: auto; }
+  .auth-page, .app-page { min-height: calc(100svh - 85px); padding: 28px 18px; }
+  .auth-panel, .app-panel { padding: 30px 24px; }
+}

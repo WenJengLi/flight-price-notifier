@@ -34,6 +34,9 @@
 .form-field input { background: #fffdf8; border: 1px solid #aeb8af; border-radius: 4px; min-height: 46px; padding: 10px 12px; }
 .form-field input::placeholder { color: #7a857c; }
 .auth-form .button { margin-top: 6px; width: 100%; }
+.auth-form .button:disabled { cursor: wait; opacity: .7; }
+.auth-status { color: #315f48; font-size: 14px; line-height: 1.5; margin: 0; }
+.auth-error { color: #a52c1c; }
 .form-footnote { color: #647168; font-size: 14px; margin: 26px 0 0; text-align: center; }
 .app-panel { max-width: 620px; text-align: center; }
 .app-panel p { color: #5d685f; line-height: 1.6; margin: 0 auto 28px; max-width: 470px; }

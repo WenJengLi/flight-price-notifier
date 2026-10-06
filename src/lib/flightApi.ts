@@ -10,7 +10,14 @@ export type Subscription = {
   currency: 'TWD'
   created_at: string
   updated_at: string
+  subscription_status?: 'pending_payment' | 'active' | 'cancelled' | 'expired'
+  current_period_end?: string
+  current_period_end_date?: string
 }
+
+export type SubscribeResult =
+  | { kind: 'checkout'; html: string }
+  | { kind: 'subscription'; subscription: Subscription }
 
 const apiUrl = import.meta.env.VITE_FLIGHT_API_URL
 
@@ -40,6 +47,24 @@ export async function saveSubscription(email: string, planName: FlightPlan, targ
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ email, plan_name: planName, target_price: targetPrice }),
+  })
+
+  if (!response.ok) {
+    await readResponse(response)
+  }
+
+  if (response.headers.get('content-type')?.includes('text/html')) {
+    return { kind: 'checkout', html: await response.text() } as SubscribeResult
+  }
+
+  return { kind: 'subscription', subscription: await readResponse(response) as Subscription } as SubscribeResult
+}
+
+export async function cancelSubscription(email: string, route: string) {
+  const response = await fetch(`${requireApiUrl()}/cancel`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ email, route }),
   })
 
   return readResponse(response) as Promise<Subscription>

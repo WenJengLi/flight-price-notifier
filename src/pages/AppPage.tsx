@@ -8,13 +8,14 @@ import '../App.css'
 const plans: Array<{ name: FlightPlan; route: string; title: string; hint: string; suggestedPrice: number }> = [
   { name: 'tokyo', route: 'TPE-TYO', title: '台北 to 東京', hint: 'Tokyo fares often start around NT$9,325.', suggestedPrice: 10000 },
   { name: 'seoul', route: 'TPE-SEL', title: '台北 to 首爾', hint: 'Seoul fares often start around NT$5,989.', suggestedPrice: 7000 },
+  { name: 'london', route: 'TPE-LON', title: '台北 to 倫敦', hint: 'Set your ideal TWD fare for London.', suggestedPrice: 30000 },
 ]
 
 export function AppPage() {
   const { signOut, user } = useAuth()
   const navigate = useNavigate()
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
-  const [targetPrices, setTargetPrices] = useState<Record<FlightPlan, string>>({ tokyo: '10000', seoul: '7000' })
+  const [targetPrices, setTargetPrices] = useState<Record<FlightPlan, string>>({ tokyo: '10000', seoul: '7000', london: '30000' })
   const [loading, setLoading] = useState(true)
   const [savingPlan, setSavingPlan] = useState<FlightPlan | null>(null)
   const [error, setError] = useState<string | null>(null)

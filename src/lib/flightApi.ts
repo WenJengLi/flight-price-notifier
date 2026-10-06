@@ -1,4 +1,4 @@
-export type FlightPlan = 'tokyo' | 'seoul'
+export type FlightPlan = 'tokyo' | 'seoul' | 'london'
 
 export type Subscription = {
   email: string

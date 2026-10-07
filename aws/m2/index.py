@@ -369,6 +369,7 @@ def send_status_email(secret, message):
         headers={
             "Authorization": f"Bearer {secret['api_key']}",
             "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (compatible; flight-notifier/1.0)",
         },
         method="POST",
     )

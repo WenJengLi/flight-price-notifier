@@ -385,6 +385,9 @@ def status_notification(event):
         if event_type not in {"welcome", "cancel"}:
             print(f"Skipping unknown status event: {event_type}")
             continue
+        if not isinstance(message.get("email"), str) or not message["email"].strip() or not isinstance(message.get("route"), str) or not message["route"].strip():
+            print("Skipping invalid status event: missing email or route")
+            continue
 
         state_name = f"{event_type}_notification_state"
         timestamp_name = f"{event_type}_sent_at"

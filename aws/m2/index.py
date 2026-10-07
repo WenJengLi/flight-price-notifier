@@ -242,23 +242,29 @@ def process_callback(event, is_period):
     secret = get_ecpay_secret()
     expected = check_mac_value(params, secret["hash_key"], secret["hash_iv"])
     if not hmac.compare_digest(params.get("CheckMacValue", "").upper(), expected):
+        print(f"ECPay callback rejected: invalid CMV; fields={sorted(params)}")
         return text_response("0|CheckMacValueInvalid", 400)
     if params.get("MerchantID") != str(secret["merchant_id"]):
+        print("ECPay callback rejected: MerchantID mismatch")
         return text_response("0|MerchantIDInvalid", 400)
     if params.get("SimulatePaid") == "1" or params.get("RtnCode") != "1":
+        print(f"ECPay callback acknowledged without activation: RtnCode={params.get('RtnCode')}, simulated={params.get('SimulatePaid')}")
         return text_response("1|OK")
 
     email = params.get("CustomField1", "").strip().lower()
     route = params.get("CustomField2", "").strip()
     merchant_trade_no = params.get("MerchantTradeNo", "")
     if not email or not route or not merchant_trade_no:
+        print("ECPay callback rejected: missing subscription keys")
         return text_response("0|SubscriptionNotFound", 400)
 
     item = table.get_item(Key={"email": email, "route": route}).get("Item")
     if not item or item.get("merchant_trade_no") != merchant_trade_no:
+        print(f"ECPay callback rejected: subscription not found for route={route}")
         return text_response("0|SubscriptionNotFound", 400)
 
     if not is_period and item.get("subscription_status") == "active":
+        print(f"ECPay callback already active for route={route}")
         return text_response("1|OK")
 
     period_end = next_month()
@@ -276,6 +282,7 @@ def process_callback(event, is_period):
     )
     if not is_period:
         enqueue("welcome", email, route)
+    print(f"ECPay callback activated route={route}, period={is_period}")
     return text_response("1|OK")
 
 

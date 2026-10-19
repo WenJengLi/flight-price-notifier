@@ -13,8 +13,11 @@ python3 aws/m2/test_check_mac_value.py
 mkdir -p build/m2 build/parser
 cp aws/m2/index.py build/m2/index.py
 cp aws/m2/parser.py build/parser/index.py
+mkdir -p build/list-subscriptions
+cp aws/m2/list_subscriptions.py build/list-subscriptions/index.py
 (cd build/m2 && zip -q ../m2.zip index.py)
 (cd build/parser && zip -q ../parser.zip index.py)
+(cd build/list-subscriptions && zip -q ../list-subscriptions.zip index.py)
 ```
 
 Set the one non-secret site value. It must be the Vercel production URL, without
@@ -130,7 +133,17 @@ aws lambda update-function-code --function-name flight-parser --zip-file fileb:/
 aws lambda wait function-updated --function-name flight-parser --region "$REGION"
 ```
 
-## 6. Verify before paying
+## 6. Deploy the subscription status response
+
+`GET /subscriptions` must return the M2 state fields; otherwise the dashboard
+cannot distinguish an active payment from a pending checkout on initial load.
+
+```bash
+aws lambda update-function-code --function-name flight-list-subscriptions --zip-file fileb://build/list-subscriptions.zip --region "$REGION"
+aws lambda wait function-updated --function-name flight-list-subscriptions --region "$REGION"
+```
+
+## 7. Verify before paying
 
 ```bash
 curl -i -X POST "$API_BASE_URL/subscribe" -H 'content-type: application/json' -d '{"email":"YOUR_EMAIL","plan_name":"tokyo","target_price":10000}'

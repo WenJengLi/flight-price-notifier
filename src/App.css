@@ -55,7 +55,11 @@
 .price-field { color: #28382c; display: grid; font-size: 14px; font-weight: 700; gap: 8px; }
 .price-field input { background: #fffdf8; border: 1px solid #aeb8af; border-radius: 4px; min-height: 46px; padding: 10px 12px; }
 .subscription-badge { background: #e6efe8; color: #1d3424; font-size: 13px; font-weight: 700; padding: 5px 8px; white-space: nowrap; }
+.subscription-badge-active { background: #f4dfd5; color: #c9573c; }
+.subscription-badge-pending_payment { background: #f8e7c5; color: #a85b00; }
+.subscription-badge-cancelled, .subscription-badge-expired { background: #ece9df; color: #5d685f; }
 .subscription-detail { color: #315f48 !important; font-size: 14px; font-weight: 700; }
+.dashboard-notice { background: #e6efe8; border-radius: 5px; margin: 0 0 18px !important; max-width: none !important; padding: 10px 14px; }
 .watch-card-actions { display: grid; gap: 10px; grid-template-columns: 1fr; }
 .watch-card-actions .button { width: 100%; }
 .watch-card-actions .button:disabled { cursor: wait; opacity: .7; }

@@ -13,7 +13,7 @@ const plans: Array<{ name: FlightPlan; route: string; title: string; hint: strin
 
 const statusLabels = {
   pending_payment: '未完成付款',
-  active: '已訂閱',
+  active: '已訂閱（有效）',
   cancelled: '已取消',
   expired: '已結束',
 } as const
@@ -26,6 +26,7 @@ export function AppPage() {
   const [loading, setLoading] = useState(true)
   const [savingPlan, setSavingPlan] = useState<FlightPlan | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
 
   useEffect(() => {
     let active = true
@@ -39,6 +40,10 @@ export function AppPage() {
         const nextSubscriptions = await getSubscriptions(user.email)
         if (active) {
           setSubscriptions(nextSubscriptions)
+          setTargetPrices((current) => nextSubscriptions.reduce(
+            (prices, subscription) => ({ ...prices, [subscription.plan_name]: String(subscription.target_price) }),
+            current,
+          ))
         }
       } catch (loadError) {
         if (active) {
@@ -70,6 +75,7 @@ export function AppPage() {
     }
 
     setError(null)
+    setNotice(null)
     setSavingPlan(planName)
 
     try {
@@ -82,6 +88,8 @@ export function AppPage() {
       }
 
       setSubscriptions((current) => [...current.filter((item) => item.plan_name !== planName), result.subscription])
+      setTargetPrices((current) => ({ ...current, [planName]: String(result.subscription.target_price) }))
+      setNotice(`${plans.find((plan) => plan.name === planName)?.title}目標價已儲存。`)
     } catch (saveError) {
       setError(saveError instanceof Error ? saveError.message : 'Unable to save your subscription.')
     } finally {
@@ -95,6 +103,7 @@ export function AppPage() {
     }
 
     setError(null)
+    setNotice(null)
     setSavingPlan(subscription.plan_name)
 
     try {
@@ -120,6 +129,7 @@ export function AppPage() {
           <button className="button button-secondary" onClick={handleSignOut} type="button">Sign out</button>
         </div>
         {error && <p className="auth-status auth-error" role="alert">{error}</p>}
+        {notice && <p className="auth-status dashboard-notice" role="status">{notice}</p>}
         <div className="watch-grid">
           {plans.map((plan) => {
             const subscription = subscriptions.find((item) => item.plan_name === plan.name)
@@ -137,14 +147,14 @@ export function AppPage() {
                   <p className="phase-note">{plan.route}</p>
                   <h2>{plan.title}</h2>
                 </div>
-                {status && <span className="subscription-badge">{statusLabels[status]}</span>}
+                {status && <span className={`subscription-badge subscription-badge-${status}`}>{statusLabels[status]}</span>}
               </div>
               <p>{plan.hint}</p>
               <label className="price-field" htmlFor={`${plan.name}-price`}>
-                Target price (TWD)
+                目標價 Target price (NT$)
                 <input id={`${plan.name}-price`} inputMode="numeric" min="1" onChange={(event) => setTargetPrices((current) => ({ ...current, [plan.name]: event.target.value }))} type="number" value={targetPrices[plan.name]} />
               </label>
-              {subscription && <p className="subscription-detail">目前目標：NT${subscription.target_price.toLocaleString()}</p>}
+              {subscription && <p className="subscription-detail">已儲存目標價：NT${subscription.target_price.toLocaleString()}</p>}
               {status === 'cancelled' && subscription && <p className="subscription-detail">有效至：{subscription.current_period_end_date ?? subscription.current_period_end ?? '本期結束'}</p>}
               <div className="watch-card-actions">
                 <button className="button" disabled={isBusy} onClick={() => void handleSubscribe(plan.name)} type="button">{isBusy ? 'Saving...' : actionLabel}</button>

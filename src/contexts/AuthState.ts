@@ -10,6 +10,8 @@ export type AuthContextValue = {
   signIn: (email: string, password: string) => Promise<string | null>
   signOut: () => Promise<string | null>
   signUp: (email: string, password: string) => Promise<AuthResult>
+  sendPasswordResetEmail: (email: string) => Promise<string | null>
+  updatePassword: (password: string) => Promise<string | null>
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)

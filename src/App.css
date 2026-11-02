@@ -33,6 +33,7 @@
 .form-field label { color: #28382c; font-size: 14px; font-weight: 700; }
 .form-field input { background: #fffdf8; border: 1px solid #aeb8af; border-radius: 4px; min-height: 46px; padding: 10px 12px; }
 .form-field input::placeholder { color: #7a857c; }
+.forgot-password-link { font-size: 13px; justify-self: end; }
 .auth-form .button { margin-top: 6px; width: 100%; }
 .auth-form .button:disabled { cursor: wait; opacity: .7; }
 .auth-status { color: #315f48; font-size: 14px; line-height: 1.5; margin: 0; }
